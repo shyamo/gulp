@@ -1,3 +1,4 @@
+
 var gulp = require("gulp"),
     uglify = require("gulp-uglify"),
     browserSync = require("browser-sync"),
@@ -8,7 +9,9 @@ var gulp = require("gulp"),
     del = require("del"),
     plumber = require("gulp-plumber");
 
+//////////////
 //script task
+//////////////
 gulp.task("scripts", function() { 
    gulp.src(['js/**/*.js'],['!js/**/*.min.js'])
    .pipe(plumber())
@@ -18,7 +21,9 @@ gulp.task("scripts", function() {
    .pipe(reload({stream:true}));
 });
 
-//compass sass task
+//////////////
+//stylesheet sass task
+//////////////
 gulp.task('stylesheet', function() {
     gulp.src('css/**/*.css')
     .pipe(plumber())
@@ -28,7 +33,9 @@ gulp.task('stylesheet', function() {
     .pipe(reload({stream:true}));
 });
 
-//compass sass task
+//////////////
+//image compression task
+//////////////
 gulp.task('images', function() {
     gulp.src('images/*')
     .pipe(plumber())
@@ -41,14 +48,18 @@ gulp.task('images', function() {
     .pipe(reload({stream:true}));
 });
 
+//////////////
 //html task
+//////////////
 gulp.task('html', function(){
    gulp.src('**/*.html')
    .pipe(reload({stream:true})); 
     
 });
 
+//////////////
 //browser-sync
+//////////////
 gulp.task('browser-sync', function() {
     browserSync({
         server: {
@@ -56,7 +67,6 @@ gulp.task('browser-sync', function() {
         }
     })
 });
-
 
 //browser-sync , serve build site
 gulp.task('build:serve', function() {
@@ -67,31 +77,40 @@ gulp.task('build:serve', function() {
     })
 });
 
-
-//remove files and folders from build
+//////////////
+//remove all files and folders from build
+//////////////
 gulp.task('build:clean', function(cb) {
    del([
        'build/*'
    ], cb) ;
 });
 
+//////////////
 //build task
+//////////////
 gulp.task('build:copy', ['build:clean'], function() {
    return gulp.src('/')
    .pipe(gulp.dest('build/'));
 });
 
+//////////////
 //remove files not needed in build
+//////////////
 gulp.task('build:remove' , ['build:copy'], function(cb) {
     del([
         'build/js/!(*.min.js)'
     ], cb)
 });
 
+//////////////
 //build umbrella task
+//////////////
 gulp.task('build', ['build:copy', 'build:remove']);
 
+//////////////
 //watch task
+//////////////
 gulp.task('watch', function() {
     gulp.watch('js/**/*.js', ['scripts']);
     gulp.watch('css/**/*.css' , ['stylesheet']);
